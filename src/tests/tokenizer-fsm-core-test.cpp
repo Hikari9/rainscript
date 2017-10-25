@@ -2,7 +2,7 @@
  * Tokenizer tests.
  */
 
-#include "tokenizer-core/fsm.cpp"
+#include <fsm.cpp>
 #include <iostream>
 #include <fstream>
 #include <cassert>
