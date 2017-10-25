@@ -1,5 +1,4 @@
 #include "fsm.h"
-#include <iostream>
 #include <fstream>
 #include <functional>
 #include <string>
@@ -40,33 +39,40 @@ bool rainscript::fsm::next(
 }
 
 /**
+ * Default protected constructor for rainscript::fsm.
+ */
+rainscript::fsm::fsm() {}
+
+/**
  * Constructs a finite state machine given description from a file.
  */
-rainscript::fsm::fsm(const char filename[])
+rainscript::fsm rainscript::fsm::create_from_file(const char filename[])
 {
+    rainscript::fsm fsm;
+
     static std::string buffer;
     std::ifstream fin(filename);
     assert(fin.is_open()); // TODO: throw error
 
     // read size
-    fin >> n_states >> n_symbols >> start_state;
+    fin >> fsm.n_states >> fsm.n_symbols >> fsm.start_state;
 
     // allocate state and callbacks
-    states = new std::string[n_states];
-    n_callbacks = new int[n_states];
-    callbacks = new std::string*[n_states];
-    fallback = new int[n_states];
+    fsm.states = new std::string[fsm.n_states];
+    fsm.n_callbacks = new int[fsm.n_states];
+    fsm.callbacks = new std::string*[fsm.n_states];
+    fsm.fallback = new int[fsm.n_states];
 
     // read state names and callbacks
-    for (int i = 0; i < n_states; ++i) {
-        int& length = n_callbacks[i];
-        fin >> states[i] >> fallback[i] >> length;
+    for (int i = 0; i < fsm.n_states; ++i) {
+        int& length = fsm.n_callbacks[i];
+        fin >> fsm.states[i] >> fsm.fallback[i] >> length;
         if (length > 0) {
-            callbacks[i] = new std::string[length];
+            fsm.callbacks[i] = new std::string[length];
             for (int j = 0; j < length; ++j)
-                fin >> callbacks[i][j];
+                fin >> fsm.callbacks[i][j];
         } else {
-            callbacks[i] = NULL;
+            fsm.callbacks[i] = NULL;
         }
     }
 
@@ -74,34 +80,37 @@ rainscript::fsm::fsm(const char filename[])
     getline(fin, buffer);
 
     // allocate symbols
-    symbols = new std::string[n_symbols];
+    fsm.symbols = new std::string[fsm.n_symbols];
 
     // read symbols per line
-    for (int i = 0; i < n_symbols; ++i) {
-        getline(fin, symbols[i], '\0');
+    for (int i = 0; i < fsm.n_symbols; ++i) {
+        getline(fin, fsm.symbols[i], '\0');
     }
 
     // allocate null pointers and fsm adjacency matrix
-    null = new int[n_states];
-    matrix = new int*[n_states];
+    fsm.null = new int[fsm.n_states];
+    fsm.matrix = new int*[fsm.n_states];
 
     // read matrix, L means list, N means null
-    for (int i = 0; i < n_states; ++i) {
+    for (int i = 0; i < fsm.n_states; ++i) {
         fin >> buffer;
         if (buffer == "L") {
-            null[i] = -1;
+            fsm.null[i] = -1;
             // read list
-            matrix[i] = new int[n_symbols];
-            for (int j = 0; j < n_symbols; ++j)
-                fin >> matrix[i][j];
+            fsm.matrix[i] = new int[fsm.n_symbols];
+            for (int j = 0; j < fsm.n_symbols; ++j)
+                fin >> fsm.matrix[i][j];
         } else if (buffer == "N") {
-            matrix[i] = NULL;
-            fin >> null[i];
+            fsm.matrix[i] = NULL;
+            fin >> fsm.null[i];
         } else {
             assert(false);
         }
 
     }
+
+    return fsm;
+
 }
 
 /**
@@ -110,17 +119,15 @@ rainscript::fsm::fsm(const char filename[])
 rainscript::fsm::~fsm()
 {
     for (int i = 0; i < n_states; ++i) {
-        if (callbacks[i] != NULL)
-            delete[] callbacks[i];
-        if (matrix[i] != NULL)
-            delete[] matrix[i];
+        if (callbacks[i]) delete[] callbacks[i];
+        if (matrix[i]) delete[] matrix[i];
     }
-    delete[] states;
-    delete[] symbols;
-    delete[] callbacks;
-    delete[] n_callbacks;
-    delete[] null;
-    delete[] fallback;
-    delete[] matrix;
+    if (states) delete[] states;
+    if (symbols) delete[] symbols;
+    if (callbacks) delete[] callbacks;
+    if (n_callbacks) delete[] n_callbacks;
+    if (null) delete[] null;
+    if (fallback) delete[] fallback;
+    if (matrix) delete[] matrix;
 }
 

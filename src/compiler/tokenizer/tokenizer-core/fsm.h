@@ -40,13 +40,18 @@ namespace rainscript {
         /**
          * Constructs a finite state machine given description from a file.
          */
-        fsm(const char filename[]);
+        static fsm create_from_file(const char filename[]);
 
         /**
          * Garbage collection of this finite state machine.
          */
         ~fsm();
 
+    protected:
+        /**
+         * Prevent class to be explicitly constructed.
+         */
+        fsm();
     };
 
 }

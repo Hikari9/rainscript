@@ -70,7 +70,7 @@ bool TEST_2(std::string& program, const std::string& output_filename) {
 
     // create FSM instance
     using namespace std;
-    rainscript::fsm fsm(TOKENIZER CORE "fsm");
+    auto fsm = rainscript::fsm::create_from_file(TOKENIZER CORE "fsm");
 
     if (!test_fsm_one_character_symbols_only(fsm))
         return false;
