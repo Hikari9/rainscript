@@ -30,7 +30,7 @@ export class TypedExpressionParser {
       }
       let cast = this.typeCast();
       if (cast !== undefined) {
-        return [this.wrapper.typeCast(result[0], cast), cast];
+        return [this.transpilerFormatter().typeCast(result[0], cast), cast];
       }
       return result;
     };

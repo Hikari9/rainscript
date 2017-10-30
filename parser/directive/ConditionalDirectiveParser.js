@@ -74,7 +74,7 @@ export class ConditionalDirectiveParser {
       // reset environment first
       this.environment = block;
       if (body !== undefined) {
-        return this.wrapper.conditional('else', true, body);
+        return this.transpilerFormatter().conditional('else', true, body);
       }
     }
     return this.undo(this.index - checkpoint);
@@ -97,7 +97,7 @@ export class ConditionalDirectiveParser {
         // reset environment first
         this.environment = block;
         if (body !== undefined) {
-          return this.wrapper.conditional(type, condition, body);
+          return this.transpilerFormatter().conditional(type, condition, body);
         }
         this.error('invalid #' + type + 'block');
       }

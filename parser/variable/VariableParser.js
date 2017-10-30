@@ -14,7 +14,7 @@ export class VariableParser {
   variableDereference () {
     let variable = this.variable();
     if (variable !== undefined) {
-      return this.wrapper.dereference(name);
+      return this.transpilerFormatter().dereference(name);
     }
     return undefined;
   }

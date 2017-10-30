@@ -54,8 +54,8 @@ const include = [
 export const FullParserTemplate = class FullParserTemplate {
   constructor () {
     // include transpiler format
-    let transpilerFormat = new TranspilerOutputFormat();
-    this.transpilerFormat = () => transpilerFormat; // getter
+    let transpilerFormatter = new TranspilerOutputFormat();
+    this.transpilerFormatter = () => transpilerFormatter; // getter
     // register the parsers from include
     let self = this;
     include.forEach(Parser => {

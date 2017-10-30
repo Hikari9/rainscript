@@ -22,13 +22,13 @@ export class StatementParser {
     let checkpoint = this.index;
     let ifEffect = this.ifEffect();
     if (ifEffect !== undefined) {
-      return this.wrapper.statement('@if', {condition: ifEffect});
+      return this.transpilerFormatter().statement('@if', {condition: ifEffect});
     }
     // special case: input-effect
     let inputEffect = this.inputEffect();
     if (inputEffect !== undefined) {
-      return this.wrapper.statement('@input', {
-        var: inputEffect === null ? null : this.wrapper.dereference(inputEffect)
+      return this.transpilerFormatter().statement('@input', {
+        var: inputEffect === null ? null : this.transpilerFormatter().dereference(inputEffect)
       });
     }
     if (this.character('@')) {
@@ -80,11 +80,11 @@ export class StatementParser {
       if (this.peek() === '(') {
         let args = this.argumentListExpression();
         if (args !== undefined) {
-          return this.wrapper.statement(name, args);
+          return this.transpilerFormatter().statement(name, args);
         }
         this.error('invalid argument list after \'' + name + '\'');
       } else {
-        return this.wrapper.statement(name, {});
+        return this.transpilerFormatter().statement(name, {});
       }
     }
     return this.undo(this.index - checkpoint);

@@ -80,7 +80,7 @@ export class ArgumentExpressionParser {
       this.whitespace();
       let key = expression;
       if (key[1] !== 'string') { // cast to string first
-        key[0] = this.wrapper.typeCast(key[0]);
+        key[0] = this.transpilerFormatter().typeCast(key[0]);
       }
       let value = this.argumentValueExpression();
       if (value !== undefined) {

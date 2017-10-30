@@ -8,7 +8,7 @@ export class PrintDirectiveParser {
       if (this.whitespace()) {
         let expression = this.expression();
         if (expression !== undefined) {
-          return this.wrapper.print(expression);
+          return this.transpilerFormatter().print(expression);
         }
         this.error('exprected expression after \'print\'');
       }

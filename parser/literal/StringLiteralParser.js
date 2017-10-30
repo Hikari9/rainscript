@@ -22,10 +22,10 @@ export class StringLiteralParser {
           this.warning('variable \'' + match +
             '\' is not defined, will not be embedded');
         } else {
-          args[match] = this.wrapper.dereference(match);
+          args[match] = this.transpilerFormatter().dereference(match);
         }
       }
-      return this.wrapper.embed(string, args);
+      return this.transpilerFormatter().embed(string, args);
     }
     return string;
   }

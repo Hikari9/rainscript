@@ -12,7 +12,7 @@ export class SpeechParser {
         // expect dialogue
         let dialogue = this.stringExpression();
         if (dialogue !== undefined) {
-          return this.wrapper.speech(statement, dialogue);
+          return this.transpilerFormatter().speech(statement, dialogue);
         }
       } else {
         this.warning('expected colon \':\' after \'' + statement.name);
@@ -26,7 +26,7 @@ export class SpeechParser {
   narration () {
     let narration = this.stringExpression();
     if (narration !== undefined) {
-      return this.wrapper.narration(narration);
+      return this.transpilerFormatter().narration(narration);
     }
   }
 }

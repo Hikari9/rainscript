@@ -8,11 +8,11 @@ export class InputDirectiveParser {
       if (this.whitespace()) {
         let variable = this.variableExpression();
         if (variable !== undefined) {
-          return this.wrapper.input(variable);
+          return this.transpilerFormatter().input(variable);
         }
         // this.error('expected variable after \'input\'');
       }
-      return this.wrapper.input(null);
+      return this.transpilerFormatter().input(null);
     }
     return this.undo(this.index - checkpoint);
   }

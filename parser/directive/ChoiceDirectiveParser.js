@@ -24,7 +24,7 @@ export class ChoiceDirectiveParser {
       // reset environment
       this.environment = block;
       if (!error) {
-        return this.wrapper.choice(preamble, routes);
+        return this.transpilerFormatter().choice(preamble, routes);
       }
     }
     return this.undo(this.index - checkpoint);
@@ -42,7 +42,7 @@ export class ChoiceDirectiveParser {
         this.whitespace();
         let body = this.eventBody();
         if (body !== undefined) {
-          return this.wrapper.choiceRoute(label, body);
+          return this.transpilerFormatter().choiceRoute(label, body);
         }
       }
       // reset environment

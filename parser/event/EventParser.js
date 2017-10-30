@@ -9,7 +9,7 @@ export class EventParser {
       this.whitespace();
       let body = this.eventBody();
       if (body !== undefined) {
-        return this.wrapper.event(name, body);
+        return this.transpilerFormatter().event(name, body);
       }
     }
     return this.undo(this.index - checkpoint);
