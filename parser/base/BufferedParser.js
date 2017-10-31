@@ -77,6 +77,7 @@ BufferedParser.prototype = {
   seek (cursor) {
     while (this.cursor < cursor) this.next();
     while (this.cursor > cursor) this.undo();
+    return null;
   },
 
   /**
