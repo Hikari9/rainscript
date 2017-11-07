@@ -44,8 +44,13 @@ export class BaseLexer extends Lexer {
       // update line / column count
       let line = this.line;
       let column = this.column;
-      this.line += ccount(lexeme, '\n');
-      this.column += lexeme.length;
+      let lines = ccount(lexeme, '\n');
+      if (lines > 0) {
+        this.line += lines;
+        this.column = lexeme.length - lexeme.lastIndexOf('\n');
+      } else {
+        this.column += lexeme.length;
+      }
       // create method for tokenizing (since we might map an array)
       let tokenize = (tokenType) => {
         return {
