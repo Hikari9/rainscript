@@ -39,6 +39,7 @@
     "eslint": "^4.10.0",
     "eslint-config-semistandard": "^11.0.0",
     "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-chai-friendly": "^0.4.0",
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-node": "^5.1.1",
     "eslint-plugin-promise": "^3.5.0",
@@ -50,6 +51,7 @@
     "babel-register": "^6.26.0",
     "ccount": "^1.0.2",
     "lex": "^1.7.9",
-    "lodash": "^4.17.4"
+    "lodash": "^4.17.4",
+    "underscore": "^1.8.3"
   }
 }

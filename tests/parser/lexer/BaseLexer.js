@@ -1,4 +1,5 @@
 import { BaseLexer } from '../../../parser/lexer/BaseLexer';
+import { _ } from 'underscore';
 require('chai').should();
 
 describe('parser', () => {
@@ -24,7 +25,7 @@ describe('parser', () => {
         lexer.lex().column.should.equal(1);
         lexer.lex().column.should.equal(1 + 'hello'.length);
         lexer.lex().column.should.equal(1 + 'hello '.length);
-        lexer.lex.should.throw(Error);
+        _.isUndefined(lexer.lex()).should.be.true;
       });
 
       it('should increment line for every newline', () => {
@@ -47,7 +48,7 @@ describe('parser', () => {
         lexer.lex().line.should.equal(4); // hello
         lexer.lex().line.should.equal(4);
         lexer.line.should.equal(7);
-        lexer.lex.should.throw(Error);
+        _.isUndefined(lexer.lex()).should.be.true;
       });
 
       it('should increment reset column count after newline', () => {
@@ -56,9 +57,7 @@ describe('parser', () => {
         });
         lexer.addRule(/\S+/, 'WORD');
         lexer.addRule(/\s+/, 'WHITESPACE');
-        // add input
-        lexer.setInput('hello\nworld\n\n \thello');
-        // perform column checks
+        lexer.setInput('hello\nworld\n\n \t');
 
         lexer.lex();
         lexer.line.should.equal(1);
@@ -75,7 +74,27 @@ describe('parser', () => {
         lexer.lex();
         lexer.line.should.equal(4);
         lexer.column.should.equal(' \t'.length + 1);
-        lexer.lex.should.throw(Error);
+        _.isUndefined(lexer.lex()).should.be.true;
+      });
+
+      it('should skip undefined token types', () => {
+        let lexer = new BaseLexer((character) => {
+          throw new Error('invalid character ' + character);
+        });
+        lexer.addRule(/\S+/, 'WORD');
+        lexer.addRule(/\s+/, undefined); // skip whitespace
+        lexer.setInput('  hello   \t world  ');
+
+        let firstToken = lexer.lex();
+        firstToken.token.should.equal('WORD');
+        firstToken.lexeme.should.equal('hello');
+
+        let secondToken = lexer.lex();
+        secondToken.token.should.equal('WORD');
+        secondToken.lexeme.should.equal('world');
+
+        // should reach end-of-file
+        _.isUndefined(lexer.lex()).should.be.true;
       });
     });
   });

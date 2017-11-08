@@ -1,4 +1,5 @@
 import Lexer from 'lex';
+import { _ } from 'underscore';
 const ccount = require('ccount');
 
 export class BaseLexer extends Lexer {
@@ -53,6 +54,9 @@ export class BaseLexer extends Lexer {
       }
       // create method for tokenizing (since we might map an array)
       let tokenize = (tokenType) => {
+        if (_.isUndefined(tokenType)) {
+          return undefined;
+        }
         return {
           token: tokenType,
           lexeme: lexeme,
