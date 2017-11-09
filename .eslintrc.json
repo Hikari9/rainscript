@@ -8,6 +8,9 @@
     "parserOptions": {
         "sourceType": "module"
     },
+    "plugins": [
+        "jsdoc"
+    ],
     "rules": {
         "indent": [
             "error",
@@ -23,6 +26,19 @@
         "semi": [
             "error",
             "always"
-        ]
+        ],
+        "jsdoc/check-param-names": "error",
+        "jsdoc/check-tag-names": "error",
+        "jsdoc/check-types": "error",
+        "jsdoc/newline-after-description": "off",
+        "jsdoc/require-description-complete-sentence": "error",
+        "jsdoc/require-example": "off",
+        "jsdoc/require-hyphen-before-param-description": "off",
+        "jsdoc/require-param": "error",
+        "jsdoc/require-param-description": "error",
+        "jsdoc/require-param-name": "error",
+        "jsdoc/require-param-type": "error",
+        "jsdoc/require-returns-description": "error",
+        "jsdoc/require-returns-type": "error"
     }
 }
